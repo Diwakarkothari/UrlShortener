@@ -2,6 +2,8 @@ const express = require('express');
 const URL = require('./models/url');
 const path = require('path');
 const {connectToMongo} = require('./connect');
+const cookieParser = require('cookie-parser');
+const {restrictlogin} = require('./middlewares/auth')
 
 const staticRoute = require('./routes/staticRouters');
 const urlRoute = require('./routes/url');
@@ -12,6 +14,7 @@ const port=8000;
 
 app.use(express.json())
 app.use(express.urlencoded({extended:false}));
+app.use(cookieParser());
 
 app.set('view engine','ejs');
 app.set('views',path.resolve('./views'));
@@ -20,7 +23,7 @@ connectToMongo('mongodb://localhost:27017/short-url').then(()=>{
     console.log('MongoDB connected successfully');
 });
 
-app.use('/url',urlRoute);
+app.use('/url',restrictlogin,urlRoute);
 app.use('/user',userRoute); 
 app.use('/',staticRoute);
 

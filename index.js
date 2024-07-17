@@ -1,9 +1,11 @@
 const express = require('express');
-const urlRoute = require('./routes/url');
 const URL = require('./models/url');
 const path = require('path');
 const {connectToMongo} = require('./connect');
+
 const staticRoute = require('./routes/staticRouters');
+const urlRoute = require('./routes/url');
+const userRoute = require('./routes/user');
 
 const app= express();
 const port=8000;
@@ -19,6 +21,7 @@ connectToMongo('mongodb://localhost:27017/short-url').then(()=>{
 });
 
 app.use('/url',urlRoute);
+app.use('/user',userRoute); 
 app.use('/',staticRoute);
 
 app.get('/url/:shortId',async (req,res)=>{

@@ -3,7 +3,7 @@ const URL = require('./models/url');
 const path = require('path');
 const {connectToMongo} = require('./connect');
 const cookieParser = require('cookie-parser');
-const {restrictlogin} = require('./middlewares/auth')
+const {restrictlogin, checkAuth} = require('./middlewares/auth')
 
 const staticRoute = require('./routes/staticRouters');
 const urlRoute = require('./routes/url');
@@ -25,7 +25,7 @@ connectToMongo('mongodb://localhost:27017/short-url').then(()=>{
 
 app.use('/url',restrictlogin,urlRoute);
 app.use('/user',userRoute); 
-app.use('/',staticRoute);
+app.use('/',checkAuth,staticRoute);
 
 app.get('/url/:shortId',async (req,res)=>{
     const si = req.params.shortId;

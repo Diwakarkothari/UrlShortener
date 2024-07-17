@@ -10,7 +10,8 @@ async function generate(req,res){
     await url.create({
         shortId:shortId,
         redirectURL: body.url,
-        visitHistory:[]
+        visitHistory:[],
+        createdBy:req.user._id
     });
     // return res.status(200).json({id:shortId});
     return res.render('home',{id:shortId});

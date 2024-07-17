@@ -4,7 +4,7 @@ async function restrictlogin(req,res,next)
 {
     // agar cookie hai to he uid read karega
     
-    const userid = req.cookie?.uid;
+    const userid = req.cookies?.uid;
     if(!userid)
         return res.redirect('/login');
 
@@ -14,6 +14,16 @@ async function restrictlogin(req,res,next)
     req.user = user;
     next();
 }
+
+async function checkAuth(req,res,next)
+{
+    const userid = req.cookies?.uid;
+    const user = getUser(userid);
+    req.user = user;
+    next();
+}
+
 module.exports ={
-    restrictlogin
+    restrictlogin,
+    checkAuth
 }

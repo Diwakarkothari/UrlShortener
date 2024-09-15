@@ -4,14 +4,11 @@ async function restrictlogin(req,res,next)
 {
     // agar cookie hai to he uid read karega
     
-    // const userid = req.cookies?.uid;
-    const userid = req.headers['Authorization'];
+    const userid = req.cookies?.uid;
     if(!userid)
         return res.redirect('/login');
 
-    const token = userid.split('Bearer')[1];
-    // const user = getUser(userid);
-    const user = getUser(token);
+    const user = getUser(userid);
     if(!user)
         return res.redirect('/login');
     req.user = user;

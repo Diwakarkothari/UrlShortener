@@ -28,8 +28,8 @@ async function handleLogin(req,res)
     // const sessionId = uuidv4();
     // setUser(sessionId,user);
     const token = setUser(user);
-    // res.cookie("uid",token);
-    return res.json({ token });
+    res.cookie("uid",token);
+    return res.redirect('/');
 }
 module.exports = {
     handleSignup,
